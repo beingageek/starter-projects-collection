@@ -1,5 +1,5 @@
 # Get latest image from docker hub
-FROM python:latest
+FROM python:3-slim
 
 # Set working directory 
 WORKDIR /usr/src/app
