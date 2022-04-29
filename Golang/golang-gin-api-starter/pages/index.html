@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <title>The Programming Mantis</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <style type="text/css">
+        .classic {
+            display: flex;
+            font-size: 400%;
+            height: 100%;
+            font-family: 'Ubuntu Mono', monospace;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .classic a {
+            text-decoration: none;
+            color: mediumpurple
+        }
+        
+        .classic input {
+            border: none;
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 100%;
+            padding: 0;
+            width: 20%;
+            min-width: 380px;
+        }
+    </style>
+    <script>
+        function logscript() {
+            console.log(document.getElementById("txt").value);
+        }
+    </script>
+</head>
+
+<body>
+    <article>
+        <div class="classic">console.<a href="javascript:void(0)" onclick="logscript()">log</a>("<input id="txt" type="text" value="Hello World!" />")</div>
+        <script>
+            document.getElementById("txt").addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) logscript();
+            });
+        </script>
+    </article>
+</body>
+
+</html>

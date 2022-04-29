@@ -1,0 +1,1 @@
+docker run -it -p 8080:8080 --rm --name my-running-app my-golang-app
