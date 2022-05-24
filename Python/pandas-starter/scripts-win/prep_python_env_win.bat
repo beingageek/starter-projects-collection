@@ -9,4 +9,6 @@ call ..\virtualenv\Scripts\activate.bat
 rem Install Python packages
 call pip install -r ..\requirements.txt
 
+deactivate
+
 exit
