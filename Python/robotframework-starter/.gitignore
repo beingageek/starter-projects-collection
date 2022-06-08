@@ -1,0 +1,5 @@
+/.idea/
+/virtualenv
+/scripts-win/browser
+/scripts-win/output
+/scripts-win/playwright-log.txt
