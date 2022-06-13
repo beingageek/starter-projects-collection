@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: MicronautServiceStarter
+  server:
+    port: 3000
