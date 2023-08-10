@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<EnrollmentData>
+    <PolicyInformation>
+        <AccountID>1</AccountID>
+        <PolicyID>112233</PolicyID>
+        <PolicyEffDate>20230101</PolicyEffDate>
+        <PolicyTermDate>20230331</PolicyTermDate>
+        <MemberInformation>
+            <MemberID>1</MemberID>
+            <FirstName>John</FirstName>
+            <LastName>Doe</LastName>
+            <DateOfBirth>19850413</DateOfBirth>
+        </MemberInformation>
+    </PolicyInformation>
+    <PolicyInformation>
+        <AccountID>1</AccountID>
+        <PolicyID>445566</PolicyID>
+        <PolicyEffDate>20230401</PolicyEffDate>
+        <PolicyTermDate>20230630</PolicyTermDate>
+        <MemberInformation>
+            <MemberID>1</MemberID>
+            <FirstName>John</FirstName>
+            <LastName>Doe</LastName>
+            <DateOfBirth>19850413</DateOfBirth>
+        </MemberInformation>
+        <MemberInformation>
+            <MemberID>2</MemberID>
+            <FirstName>Jane</FirstName>
+            <LastName>Doe</LastName>
+            <DateOfBirth>19901213</DateOfBirth>
+        </MemberInformation>
+    </PolicyInformation>
+    <PolicyInformation>
+        <AccountID>1</AccountID>
+        <PolicyID>778899</PolicyID>
+        <PolicyEffDate>20230701</PolicyEffDate>
+        <PolicyTermDate>20231231</PolicyTermDate>
+        <MemberInformation>
+            <MemberID>1</MemberID>
+            <FirstName>John</FirstName>
+            <LastName>Doe</LastName>
+            <DateOfBirth>19850413</DateOfBirth>
+        </MemberInformation>
+    </PolicyInformation>
+</EnrollmentData>
