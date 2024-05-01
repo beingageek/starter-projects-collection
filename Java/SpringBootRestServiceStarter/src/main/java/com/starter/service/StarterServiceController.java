@@ -28,19 +28,19 @@ public class StarterServiceController {
 	
 	@GetMapping("/sayHello")
 	public String sayHello(@RequestParam String name) {
-		logger.info("Request received for sayHello, sayHelloReqCount = " + sayHelloReqCount.incrementAndGet());
+        logger.info("Request received for sayHello, sayHelloReqCount = {}", sayHelloReqCount.incrementAndGet());
 		return "Hello " + name + "!";
 	}
 	
 	@PostMapping("/addUser")
 	public String addUser(@RequestBody UserData user) {
-		logger.info("Requester User Data: " + user.toString());
+        logger.info("Requester User Data: {}", user.toString());
 		return "User " + user.getUsername() + " Added!";
 	}
 
 	@GetMapping("/getUsers")
 	public List<UserData> getUsers() {
-		logger.info("Request received for getUsers, getUsersReqCount = " + getUsersReqCount.incrementAndGet());
+        logger.info("Request received for getUsers, getUsersReqCount = {}", getUsersReqCount.incrementAndGet());
 		UserData adam = new UserData("adam01", "ADAM", "", 30);
 		UserData eve = new UserData("eve01", "EVE", "", 30);
 		UserData[] userArr = {adam, eve};
