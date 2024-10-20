@@ -1,7 +1,7 @@
 @echo off
 
 rem Prepare Python virtual env
-python -m venv ..\virtualenv
+call python -m venv ..\virtualenv
 
 rem Activate virtualenv
 call ..\virtualenv\Scripts\activate.bat

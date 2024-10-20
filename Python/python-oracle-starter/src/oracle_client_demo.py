@@ -4,7 +4,7 @@ A Python script to connect to Oracle DB and fetch user data
 import json
 from datetime import datetime, date
 
-import cx_Oracle
+import oracledb
 
 
 def datetime_serializer(obj):
@@ -19,8 +19,8 @@ def main():
     try:
         dsn = "localhost:1521/ORCLCDB.localdomain"
         # pylint: disable=c-extension-no-member
-        with cx_Oracle.connect(user="DB_APP_USER", password="Password1",
-                               dsn=dsn, encoding="UTF-8") as connection:
+        with oracledb.connect(user="DB_APP_USER", password="Password1",
+                              dsn=dsn, encoding="UTF-8") as connection:
             # Verify connection is successful and identify version
             print("Database version:", connection.version)
             cursor = connection.cursor()
