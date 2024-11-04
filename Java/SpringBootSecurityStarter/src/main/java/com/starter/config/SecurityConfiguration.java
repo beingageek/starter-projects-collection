@@ -1,5 +1,6 @@
 package com.starter.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,8 +16,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String password = "randomBike";
-    private static final String role = "api_tester_role";
+    @Value("${api_user_name}")
+    private String userName;
+
+    @Value("${api_user_password}")
+    private String userPassword;
+
+    @Value("${api_user_role}")
+    private String userRole;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +37,10 @@ public class SecurityConfiguration {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user = User.withUsername("api_tester").password("{noop}" + password).roles(role).build();
+        UserDetails user = User.withUsername(userName)
+                .password("{noop}" + userPassword)
+                .roles(userRole)
+                .build();
         return new InMemoryUserDetailsManager(user);
     }
 }

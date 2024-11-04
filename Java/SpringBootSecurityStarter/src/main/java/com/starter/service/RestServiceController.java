@@ -31,9 +31,10 @@ public class RestServiceController {
     }
 
     @PostMapping("/secured/addCount")
-    public void addCount(@RequestParam Integer increment) {
+    public int addCount(@RequestParam Integer increment) {
         logger.info("POST Request received for adding count {}", increment);
         count += increment;
+        return increment;
     }
 
     @GetMapping("/unsecured/getCount")

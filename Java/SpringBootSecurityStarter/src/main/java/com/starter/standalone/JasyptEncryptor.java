@@ -1,23 +1,23 @@
-package com.starter.app;
+package com.starter.standalone;
 
-import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@SpringBootApplication
-@ComponentScan("com.starter")
-public class SpringBootSecurityStarter {
+/**
+ * Simple setup for Jasypt PBE encryption.
+ * <p/>
+ * This class demonstrates how to use the Jasypt library to encrypt
+ * a password using a pooled PBE string encryptor. The password is
+ * "coolPassword1", and the encryption key is "coolEncryptorPassword".
+ */
+public class JasyptEncryptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(JasyptEncryptor.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootSecurityStarter.class, args);
-    }
-
-    @Bean("customEncryptor")
-    public StringEncryptor stringEncryptor() {
+        logger.info("Running Jasypt Encryptor!");
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword("coolEncryptorPassword");
         config.setAlgorithm("PBEWithMD5AndDES");
@@ -27,7 +27,6 @@ public class SpringBootSecurityStarter {
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setConfig(config);
-        return encryptor;
+        logger.info("Encrypted password: {}", encryptor.encrypt("coolPassword1"));
     }
-
 }
