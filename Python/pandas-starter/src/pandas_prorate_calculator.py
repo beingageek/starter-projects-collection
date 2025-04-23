@@ -12,7 +12,8 @@ def main():
         ['456', '20240101', '20240131', 200],
         ['456', '20240201', '20240229', 400],
         ['789', '20240101', '20240110', 200],
-        ['789', '20240111', '20240229', 400]
+        ['789', '20240111', '20240229', 400],
+        ['1234', '20240110', '20241231', 100]
     ], columns=columns)
     print("Original:\n" + df.to_markdown(floatfmt=",.0f"))
 
@@ -21,8 +22,7 @@ def main():
     df['EffectiveDateAfterTermination'] = df['ExpirationDatetime'] + pd.DateOffset(days=1)
 
     # Step 1: Separate records starting first of month and ending in last day of month
-    first_of_month = df[df['EffectiveDatetime'].dt.day == 1]
-    first_of_month = first_of_month[first_of_month['EffectiveDateAfterTermination'].dt.day == 1]
+    first_of_month = df[(df['EffectiveDatetime'].dt.day == 1) & (df['EffectiveDateAfterTermination'].dt.day == 1)]
     first_of_month = first_of_month.filter(columns)
 
     # Step 2: Handle records starting in mid-month
@@ -55,12 +55,22 @@ def main():
         how='left', suffixes=('', '_end')
     )
 
+    # Find records where we have a mid-month start but there is no corresponding
+    # termed records.
+    subs_mid_month_term = mid_month_term['MemberID'].unique().tolist()
+    mid_month_enrollments = mid_month_start[~mid_month_start['MemberID'].isin(subs_mid_month_term)]
+    mid_month_enrollments['DaysCount'] = (mid_month_enrollments['ExpirationDatetime'].dt.day -
+                                            mid_month_enrollments['EffectiveDatetime'].dt.day + 1)
+    mid_month_enrollments['DaysInMonth'] = mid_month_enrollments['ExpirationDatetime'].dt.daysinmonth
+    mid_month_enrollments['Amount'] = mid_month_enrollments['Amount'] * mid_month_enrollments['DaysCount'] / mid_month_enrollments['DaysInMonth']
+
     # Step 5: Calculate prorated amount
     mid_month_df['DaysInMonth'] = mid_month_df['ExpirationDatetime_end'].dt.day - mid_month_df['EffectiveDatetime'].dt.day + 1
     mid_month_df['ProratedAmount_first'] = mid_month_df['Amount'] * (mid_month_df['ExpirationDatetime'].dt.day - mid_month_df['EffectiveDatetime'].dt.day) / mid_month_df['DaysInMonth']
     mid_month_df['ProratedAmount_first'] = mid_month_df['Amount_end'] * (mid_month_df['ExpirationDatetime_end'].dt.day - mid_month_df['EffectiveDatetime_end'].dt.day) / mid_month_df['DaysInMonth']
     mid_month_df['Amount'] = mid_month_df['ProratedAmount_first'] + mid_month_df['ProratedAmount_first']
     mid_month_df['ExpirationDate'] = mid_month_df['ExpirationDate_end']
+    mid_month_df = pd.concat([mid_month_df, mid_month_enrollments])
     mid_month_df = mid_month_df.filter(columns)
 
     # Step 6: Merge with original records that started first of month and ended last day of month, with records that started mid-month and ended mid-month
@@ -70,18 +80,26 @@ def main():
     merged_df.reset_index(inplace=True, drop=True)
     print(merged_df.to_markdown())
 
-    assert 6 == len(merged_df)
-    assert 2 == len(merged_df[merged_df['MemberID'] == '123'])
-    assert "['123' '20240101' '20240131' 290.32]" == str(merged_df.loc[0].values)
-    assert "['123' '20240201' '20240229' 400.0]" == str(merged_df.loc[1].values)
+    assert 8 == len(merged_df)
+    records_for_id = merged_df[merged_df['MemberID'] == '123']
+    assert 2 == len(records_for_id)
+    assert "['123' '20240101' '20240131' 290.32]" == str(records_for_id.iloc[0].values)
+    assert "['123' '20240201' '20240229' 400.0]" == str(records_for_id.iloc[1].values)
 
-    assert 2 == len(merged_df[merged_df['MemberID'] == '456'])
-    assert "['456' '20240101' '20240131' 200.0]" == str(merged_df.loc[2].values)
-    assert "['456' '20240201' '20240229' 400.0]" == str(merged_df.loc[3].values)
+    records_for_id = merged_df[merged_df['MemberID'] == '456']
+    assert 2 == len(records_for_id)
+    assert "['456' '20240101' '20240131' 200.0]" == str(records_for_id.iloc[0].values)
+    assert "['456' '20240201' '20240229' 400.0]" == str(records_for_id.iloc[1].values)
 
-    assert 2 == len(merged_df[merged_df['MemberID'] == '789'])
-    assert "['789' '20240101' '20240131' 516.13]" == str(merged_df.loc[4].values)
-    assert "['789' '20240201' '20240229' 400.0]" == str(merged_df.loc[5].values)
+    records_for_id = merged_df[merged_df['MemberID'] == '789']
+    assert 2 == len(records_for_id)
+    assert "['789' '20240101' '20240131' 516.13]" == str(records_for_id.iloc[0].values)
+    assert "['789' '20240201' '20240229' 400.0]" == str(records_for_id.iloc[1].values)
+
+    records_for_id = merged_df[merged_df['MemberID'] == '1234']
+    assert 2 == len(records_for_id)
+    assert "['1234' '20240110' '20240131' 70.97]" == str(records_for_id.iloc[0].values)
+    assert "['1234' '20240201' '20241231' 100.0]" == str(records_for_id.iloc[1].values)
     print("All assertions passed!")
 
 if __name__ == "__main__":
