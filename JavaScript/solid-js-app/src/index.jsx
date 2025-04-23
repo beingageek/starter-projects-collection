@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "solid-app-router";
+import { Route, Router } from "@solidjs/router";
 import { lazy, Suspense } from "solid-js";
 import { render } from "solid-js/web";
 import "./index.css";
@@ -15,11 +15,9 @@ render(
   () => (
     <Router>
       <Suspense fallback="Loading...">
-        <Routes>
-          <Route path="/" component={App} />
-          <Route path="/another" component={Another} />
-          <Route path="/solid" component={SolidLogo} />
-        </Routes>
+        <Route path="/" component={App} />
+        <Route path="/another" component={Another} />
+        <Route path="/solid" component={SolidLogo} />
       </Suspense>
     </Router>
   ),

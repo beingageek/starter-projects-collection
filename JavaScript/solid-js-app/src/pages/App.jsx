@@ -1,7 +1,7 @@
-import { Link } from "solid-app-router";
+import { A as Link } from "@solidjs/router";
 import styles from "../App.module.css";
 
-const App = () => {
+function App() {
   return (
     <div class={styles.App}>
       <header class={styles.header}>

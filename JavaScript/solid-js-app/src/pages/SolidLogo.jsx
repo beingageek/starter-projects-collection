@@ -1,4 +1,4 @@
-import { Link } from "solid-app-router";
+import { A as Link } from "@solidjs/router";
 import logo from "../assets/logo.svg";
 import styles from "../App.module.css";
 
