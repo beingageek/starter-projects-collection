@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>3.6.0</cxf.version>
+        <cxf.version>4.1.4</cxf.version>
     </properties>
 
     <dependencies>
