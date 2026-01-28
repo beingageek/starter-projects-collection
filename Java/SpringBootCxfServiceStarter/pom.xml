@@ -15,7 +15,7 @@
 	<description>Starter Project for Spring Boot and CXF based SOAP Service</description>
 	<properties>
 		<java.version>17</java.version>
-		<cxf.version>4.1.0</cxf.version>
+		<cxf.version>4.1.4</cxf.version>
 	</properties>
 	<dependencies>
 		<dependency>
